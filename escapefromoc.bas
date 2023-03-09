@@ -165,7 +165,7 @@
  8040 op%=du%(op%,zu)
  8045 pen 0,29: circle du%(op%,7),du%(op%,8),4,1
  8050 if p%=1 then pen 0,30: circle du%(p%,7),du%(p%,8),4,1
- 8200 if p%=op% then  te$="onion cake has chaught you":gosub 800:goto 40000
+ 8200 if p%=op% then  te$="onion cake has caught you":gosub 800:goto 40000
  8300 goto 6000
 10000 te$="you are not the hulk":gosub 800:goto 2999
 11000 rem shake
@@ -195,7 +195,7 @@
 12600 te$="you take the screwdriver.":ol%(2)=-1:gosub 800
 12601 ra$(6,1)="absolutely all tools ...":goto 2999
 12950 te$="you take the key":ol%(4)=-1:gosub 800
-12951 ra$(10,1)="the smell gets worse with ever minute":goto 2999
+12951 ra$(10,1)="the smell gets worse with every minute":goto 2999
 13000 rem use
 13001 if len(in$)<5 then 13050
 13020 o$=right$(in$,len(in$)-4): b1=0
@@ -240,7 +240,7 @@
 15060 if p%=7 and o$="printer" then 15400
 15100 te$="you cannot open it.":gosub 800:goto 2999
 15200 te$="its locked.":gosub 800:goto 2999
-15202 te$="locked. only for prooven programmers":gosub 800:goto 2999
+15202 te$="locked. only for proven programmers":gosub 800:goto 2999
 15300 te$="not with your bare hands.":gosub 800:goto 2999
 15400 te$="you break it and get an electric stroke":gosub 800:goto 40000
 16000 if len(in$)<9 then 12080
@@ -256,7 +256,7 @@
 40020 end
 45000 screen close 1    
 45001 palette restore
-45010 print "{clr}gratulations! you escaped from dirty only onion cake."
+45010 print "{clr}congratulations! you escaped from dirty only onion cake."
 45011 print "for the future you plan to write more sw for the mega65"
 45011 print "to avoid to be kidnapped by onion cake again."
 45020 end
@@ -288,10 +288,10 @@
 50140 data "entry","the door is locked by a scanner"
 50150 data "office. here is a computer.","but its fuse is broken."
 50160 data "workshop. most tools here are trash","but there is a screwdriver on the floor"
-50170 data "junk room with ... junk and a printer","connected to a comuter somewhere else"
+50170 data "junk room with ... junk and a printer","connected to a computer somewhere else"
 50180 data "kitchen. it really looks bad here.","there is an old radio."
 50190 data "living room","a cabinet holds a computer book."
-50200 data "sleeping room. it smells awfull.","there is a key under the bed."
+50200 data "sleeping room. it smells awful.","there is a key under the bed."
 53001 data "whistle"
 53002 data "screwdriver"
 53003 data "fuse"
@@ -299,8 +299,8 @@
 53005 data "book"
 53006 data "printout"
 53011 data "able to make a hard to locate noise"
-53012 data "good to open elektrical devices"
+53012 data "good to open electrical devices"
 53013 data "multi puropse. for different devices."
 53014 data "small and rusty"
 53015 data "how to program the mega65"
-53016 data "a mega 65 programm..."
+53016 data "a mega 65 program..."
