@@ -1,8 +1,9 @@
 #!/bin/python
+import argparse
 
 def read_file(fname):
     pixels = []
-    infile = open('b1.prg', 'rb')
+    infile = open(fname, 'rb')
     # ignore first two bytes (dummy address)
     b = infile.read(1)
     b = infile.read(1)
@@ -20,9 +21,16 @@ def read_file(fname):
 IMG_WIDTH = 150
 IMG_HEIGHT = 90
 
+# read in arguments
+parser = argparse.ArgumentParser(description='Convert Mr Zaadi\'s graphics into a bitplane-dma-copy-friendly format')
+parser.add_argument('in_file', type=str, help='path to original graphic file (.prg)')
+parser.add_argument('out_file', type=str, help='path to new graphic file to be created (.prg)')
+
+args = parser.parse_args()
+
 # main program
-pixels = read_file('b1.prg')
-outfile = open('bb1.prg', 'wb')
+pixels = read_file(args.in_file)
+outfile = open(args.out_file, 'wb')
 
 offset = 0
 bytelst = []

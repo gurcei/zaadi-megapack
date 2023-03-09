@@ -1,13 +1,15 @@
     1 trap 350
     3 bload "esccochar", p3000, b1
-    4 goto 46000 
+    4 dim bl(5):rem bitplane memory locations
+    5 bl(0)=$44000:bl(1)=$52000:bl(2)=$42000:bl(3)=$50000:bl(4)=$40000
+    7 goto 46000
    10 dim ra$(10,1),du%(10,8),ob$(6),od$(6),ol%(6) 
    11 for i=1 to 10 : for n=1 to 8 : read du%(i,n) : next : next 
    12 for i=1 to 10 : for n=0 to 1 : read ra$(i,n) : next : next
    13 for i=1 to 6 : read ob$(i) : next
    13 for i=1 to 6 : read od$(i) : next 
    20 p%=1:ps%=0:cs%=0:op%=7:wh=0
-   21 bload "b1", p20000, b1 : bx%=0:by=0:bl%=0:bc%=0
+   21 bload "b1", p($54000) : bx%=0:by=0:bl%=0:bc%=0
    25 graphic clr : screen def 1,0,0,5: screen open 1
    30 palette 1,0,0,0,0
    31 palette 1,1,1,1,1
@@ -95,9 +97,9 @@
  1800 for n=180 to 197:pen 0,0: line 0,n, 320,n:gosub 7000:next
  1801 tx%=4:ty%=180:a$="":in$="":a=0
  1802 pen 0,29:line tx%,ty%+8,tx%+7,ty%+8: get a$ : gosub 7000 
- 1803 pen 0,0:line tx%,ty%+8,tx%+7,ty%+8: if a$="" then 1802
- 1804 a=asc(a$): if (a<32 or a>127) and a<>13 then 1803
- 1805 if a$=chr$(13) then 1808
+ 1803 pen 0,0:box tx%,ty%+8,tx%+8,ty%-8,1: if a$="" then 1802
+ 1804 a=asc(a$): if (a<32 or a>127) and a<>13 and not (a=20 and len(in$)>0) then 1802
+ 1805 if a$=chr$(13) then 1808:else if a$=chr$(20) then in$=left$(in$,len(in$)-1):te$=in$:tx%=tx%-8:goto 1802
  1806 in$=in$+a$ : te$=a$: gosub 800
  1807 if len(in$)<20 then 1802
  1808 if len(in$)=0 then goto 1802: else goto 5003
@@ -114,16 +116,16 @@
  1828 pen 0,0: circle du%(p%,7),du%(p%,8),4,1:p%=du%(p%,d):pen 0,30: circle du%(p%,7),du%(p%,8),4,1
  1829 bx%=0:by%=0:bl%=0:bc%=0
  1830 on p% goto 1831,1832,1833,1834,1835,1836,1837,1838,1839,1840
- 1831 bload "b1", p20000, b1 : goto 5010 
- 1832 bload "b2", p20000, b1 : goto 5010
- 1833 bload "b3", p20000, b1 : goto 5010
- 1834 bload "b4", p20000, b1 : goto 5010
- 1835 bload "b5", p20000, b1 : goto 5010
- 1836 bload "b6", p20000, b1 : goto 5010
- 1837 bload "b7", p20000, b1 : goto 5010
- 1838 bload "b8", p20000, b1 : goto 5010
- 1839 bload "b9", p20000, b1 : goto 5010
- 1840 bload "b10", p20000, b1 : goto 5010
+ 1831 bload "b1", p($54000) : goto 5010
+ 1832 bload "b2", p($54000) : goto 5010
+ 1833 bload "b3", p($54000) : goto 5010
+ 1834 bload "b4", p($54000) : goto 5010
+ 1835 bload "b5", p($54000) : goto 5010
+ 1836 bload "b6", p($54000) : goto 5010
+ 1837 bload "b7", p($54000) : goto 5010
+ 1838 bload "b8", p($54000) : goto 5010
+ 1839 bload "b9", p($54000) : goto 5010
+ 1840 bload "b10", p($54000) : goto 5010
  1850 goto 5010
  1903 if left$(in$,4)="take" then 12000
  1904 if left$(in$,3)="use" then 13000
@@ -147,14 +149,12 @@
  6000 goto 5001
  6999 rem plotting routine graphic
  7000 if bl%=1 then return
- 7001 bank 1
- 7005 for j=0 to 5
- 7010 pen 0,peek(20000+bc%)
- 7011 line bx%,by%,bx%,by%
- 7030 bx%=bx%+1:bc%=bc%+1
- 7040 if bx%=150 then bx%=0:by%=by%+1
- 7050 if by%>89 then bl%=1
- 7060 next
+ 7005 for bp=0 to 4:rem iterate over bitplanes
+ 7010   for y=0 to 90 step 8
+ 7011     edma 0, $98, $54000+$98*(y/8)+bp*12*$98,bl(bp)+320*(y/8)
+ 7030   next y
+ 7040 next bp
+ 7050 bl%=1
  7200 return
  8000 rem capy moves
  8010 if wh=1 then wh=0 : goto 8020
@@ -283,7 +283,7 @@
 50009 data 10,8,0,0,0,0,260,80
 50010 data 3,2,9,0,0,0,260,60
 50110 data "garret","you are tied to a chair"
-50120 data "stairwell","here is only an old strair case"
+50120 data "stairwell","here is only an old stair case"
 50130 data "bathroom","it smells really bad"
 50140 data "entry","the door is locked by a scanner"
 50150 data "office. here is a computer.","but its fuse is broken."
