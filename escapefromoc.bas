@@ -1,4 +1,4 @@
-    1 trap 350
+    1 trap 350:play: play""
     3 bload "esccochar", p3000, b1
     4 dim bl(5):rem bitplane memory locations
     5 bl(0)=$44000:bl(1)=$52000:bl(2)=$42000:bl(3)=$50000:bl(4)=$40000
@@ -45,6 +45,7 @@
    61 palette 1,30,0,15,0
    62 palette 1,31,0,0,15
   100 screen set 1,1 : scnclr 0 
+  105 gosub 53200
   110 tx%=160:ty%=10:te$="commands:":gosub 800
   111 tx%=160:ty%=18:te$="take use":gosub 800
   112 tx%=160:ty%=26:te$="shake":gosub 800
@@ -69,6 +70,7 @@
   340 pen 0,31: goto 5000     
   350 screen close 1    
   360 palette restore
+  370 play
   400 end
   800 pen 0,30 : bank 1 : rem print text
   801 for i=1 to len(te$): c$=mid$(te$,i,1)
@@ -252,10 +254,12 @@
 16010 goto 2999
 40000 screen close 1    
 40001 palette restore
+40005 play
 40010 print "{clr}game over - you died in the house of dirty old onion cake"
 40020 end
 45000 screen close 1    
 45001 palette restore
+45005 play
 45010 print "{clr}congratulations! you escaped from dirty only onion cake."
 45011 print "for the future you plan to write more sw for the mega65"
 45011 print "to avoid to be kidnapped by onion cake again."
@@ -304,3 +308,19 @@
 53014 data "small and rusty"
 53015 data "how to program the mega65"
 53016 data "a mega 65 program..."
+53200 rem *** prepare music ***
+53210 envelope 0, 5, 12, 0, 0, 2, 2000
+53220 envelope 3, 12, 14, 0, 0, 3
+53230 envelope 2, 0, 10, 0, 0, 0
+53240 filter 1, 50, 1, 0, 0
+53250 filter 2, 50, 1, 0, 0
+53260 tempo 10
+53270 b1$="p0t0o0m1wff p1 #g h#gb l":b2$="p0t0o1m2wff p1 #g h#gb l"
+53280 w1$="t3o3hr m9 w.c.g.e o2 .f .a o1 .g l"
+53290 w2$="t3o2   m9 w.e o1.#g o4 .f o3 .a .d l"
+53300 m1$="t2 x1 p0 so3fp9o4f io3fo4f qgf ir so3fo4f io3fo4f qgf ir  so3#go4#g io3#go4#g qbo5d ir  so3#go4#g io3#go4#g qbo5f ir"
+53305 m1$="wrrrr rrrr"+m1$+m1$+"l"
+53310 m2$="t2x1p0so3fp9o4fio3fo4fq#feirso3fo4fio3fo4fq#feirso3#go4#gio3#go4#gq#ao5#cirso3#go4#gio3#go4#gq#ao5e ir"
+53315 m2$="wrrrr rrrr"+m2$+m2$+"l"
+53320 play b1$,w1$,m1$:sleep 0.15:play ,,,b2$,w2$,m2$
+53330 return
