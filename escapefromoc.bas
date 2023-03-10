@@ -1,5 +1,4 @@
     1 trap 350:play: play""
-    3 bload "esccochar", p3000, b1
     4 dim bl(5):rem bitplane memory locations
     5 bl(0)=$44000:bl(1)=$52000:bl(2)=$42000:bl(3)=$50000:bl(4)=$40000
     7 goto 46000
@@ -56,7 +55,7 @@
   116 tx%=160:ty%=58:te$="n o s w u d":gosub 800 
   118 ww%=1:rem all long text after this should have a wait
   120 pen 0,31
-  121 box 250,30,250,90,310,30,310,90
+  121 box 250,30,310,90
   130 line 250,50,310,50  
   140 line 250,70,310,70                
   150 line 270,30,270,90 
@@ -307,12 +306,13 @@
 53210 envelope 0, 5, 12, 0, 0, 2, 2000
 53220 envelope 3, 12, 14, 0, 0, 3
 53230 envelope 2, 0, 10, 0, 0, 0
-53240 filter 1, 50, 1, 0, 0
-53250 filter 2, 50, 1, 0, 0
+53240 filter 1, 650, 1, 0, 0
+53250 filter 2, 650, 1, 0, 0
+53252 i$="p0t1o1scr":play i$,i$,i$,i$,i$,i$:rem workaround sid 8580 issue
 53260 tempo 10
 53270 b1$="p0t0o0m1wff p1 #g h#gb l":b2$="p0t0o1m2wff p1 #g h#gb l"
-53280 w1$="t3o3hr m9 w.c.g.e o2 .f .a o1 .g l"
-53290 w2$="t3o2   m9 w.e o1.#g o4 .f o3 .a .d l"
+53280 w1$="x1t3o3hr m9 w.c.g.e o2 .f .a o1 .g l"
+53290 w2$="x1t3o2   m9 w.e o1.#g o4 .f o3 .a .d l"
 53300 m1$="t2 x1 p0 so3fp9o4f io3fo4f qgf ir so3fo4f io3fo4f qgf ir  so3#go4#g io3#go4#g qbo5d ir  so3#go4#g io3#go4#g qbo5f ir"
 53305 m1$="wrrrr rrrr"+m1$+m1$+"l"
 53310 m2$="t2x1p0so3fp9o4fio3fo4fq#feirso3fo4fio3fo4fq#feirso3#go4#gio3#go4#gq#ao5#cirso3#go4#gio3#go4#gq#ao5e ir"
