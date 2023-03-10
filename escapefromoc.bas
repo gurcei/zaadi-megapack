@@ -46,6 +46,7 @@
    62 palette 1,31,0,0,15
   100 screen set 1,1 : scnclr 0 
   105 gosub 53200
+  107 ww%=0:rem wait flag after drawing text
   110 tx%=160:ty%=10:te$="commands:":gosub 800
   111 tx%=160:ty%=18:te$="take use":gosub 800
   112 tx%=160:ty%=26:te$="shake":gosub 800
@@ -53,6 +54,7 @@
   114 tx%=160:ty%=42:te$="open":gosub 800
   115 tx%=160:ty%=50:te$="(i)nventory":gosub 800
   116 tx%=160:ty%=58:te$="n o s w u d":gosub 800 
+  118 ww%=1:rem all long text after this should have a wait
   120 pen 0,31
   121 box 250,30,250,90,310,30,310,90
   130 line 250,50,310,50  
@@ -81,8 +83,9 @@
   806 next k
   810 char tx%/8, ty%, 1, 1, 2, te$
   820 tx%=tx%+len(te$)*8
+  830 if ww%=1 and len(te$) > 1 then sleep 1
   901 return
- 1800 for n=180 to 197:pen 0,0: line 0,n, 320,n:gosub 7000:next
+ 1800 forbp=0to4:edma 3, 320*3, 0, bl(bp)+320*22:nextbp
  1801 tx%=0:ty%=180:a$="":in$="":a=0
  1802 pen 0,29:line tx%,ty%+8,tx%+7,ty%+8: get a$ : gosub 7000 
  1803 pen 0,0:box tx%,ty%+8,tx%+8,ty%-8,1: if a$="" then 1802
@@ -122,11 +125,13 @@
  1907 if left$(in$,7)="examine" then 16000
  1920 te$="i dont understand this command":gosub 800:goto 5002
  2999 goto 5010
- 3000 for n=120 to 138:pen 0,0: line 0,n, 320,n:gosub 7000:next
+ 3000 forbp=0to4:edma 3, 320*4, 0, bl(bp)+320*15:nextbp
  3005 tx%=0 : ty%=120 :rem print room
+ 3006 ww%=0
  3010 te$=ra$(p%,0):gosub 800
  3020 tx%=0 : ty%=130 
  3040 te$=ra$(p%,1):gosub 800
+ 3045 ww%=1
  3050 goto 5002
  5000 rem main loop
  5001 vv=fre(1):goto 3000 : rem print room
