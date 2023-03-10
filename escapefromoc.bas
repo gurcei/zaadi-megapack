@@ -243,9 +243,13 @@
 16005 next
 16006 if b1=0 then te$=o$+" is not in your inventory.":gosub 800
 16010 goto 2999
-40000 screen close 1    
-40001 palette restore
-40005 play
+40000 for k=1 to 6
+40001 sound k,8000+100*k,70,1,1000+50*k,100,0
+40002 next k
+40003 sleep 2
+40004 screen close 1
+40005 palette restore
+40006 play
 40010 print "{clr}game over - you died in the house of dirty old onion cake"
 40020 end
 45000 screen close 1    
