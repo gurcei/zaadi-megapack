@@ -73,31 +73,17 @@
   370 play
   400 end
   800 pen 0,30 : bank 1 : rem print text
-  801 for i=1 to len(te$): c$=mid$(te$,i,1)
-  802 if asc(c$)=32 then tx%=tx%+8 : goto 900
-  805 for m=0 to 6 
-  810 bt%=peek(3000+asc(c$)*8+m)
-  815 if (bt% and 64)=64 then line tx%,ty%,tx%,ty%
-  816 tx%=tx%+1 
-  817 if (bt% and 32)=32 then line tx%,ty%,tx%,ty%
-  818 tx%=tx%+1
-  819 if (bt% and 16)=16 then line tx%,ty%,tx%,ty%
-  820 tx%=tx%+1
-  821 if (bt% and 8)=8 then line tx%,ty%,tx%,ty%
-  822 tx%=tx%+1
-  823 if (bt% and 4)=4 then line tx%,ty%,tx%,ty%
-  824 tx%=tx%+1
-  825 if (bt% and 2)=2 then line tx%,ty%,tx%,ty%
-  826 tx%=tx%+1
-  827 if (bt% and 1)=1 then line tx%,ty%,tx%,ty%
-  830 tx%=tx%-6 : ty%=ty%+1
-  850 next
-  860 gosub 7000 : pen 0,30
-  860 tx%=tx%+8 : ty%=ty%-7
-  900 next
+  801 tt$=te$:te$=""
+  802 for k=1 to len(tt$)
+  803 av% = asc(mid$(tt$,k,1))
+  804 if av%>=65 and av%<=90 then av% = av% or 128
+  805 te$ = te$ + chr$(av%)
+  806 next k
+  810 char tx%/8, ty%, 1, 1, 2, te$
+  820 tx%=tx%+len(te$)*8
   901 return
  1800 for n=180 to 197:pen 0,0: line 0,n, 320,n:gosub 7000:next
- 1801 tx%=4:ty%=180:a$="":in$="":a=0
+ 1801 tx%=0:ty%=180:a$="":in$="":a=0
  1802 pen 0,29:line tx%,ty%+8,tx%+7,ty%+8: get a$ : gosub 7000 
  1803 pen 0,0:box tx%,ty%+8,tx%+8,ty%-8,1: if a$="" then 1802
  1804 a=asc(a$): if (a<32 or a>127) and a<>13 and not (a=20 and len(in$)>0) then 1802
